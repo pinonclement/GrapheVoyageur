@@ -8,6 +8,7 @@ public class main {
 		tsp.circuit();
 		System.out.println("++");
 		tsp.longueur();
+		tsp.glouton();
 	}
 
 }
