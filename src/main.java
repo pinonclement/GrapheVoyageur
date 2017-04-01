@@ -6,6 +6,8 @@ public class main {
 		TSP tsp = new TSP();
 		tsp.ajoutPoints(4);
 		tsp.circuit();
+		System.out.println("++");
+		tsp.longueur();
 	}
 
 }

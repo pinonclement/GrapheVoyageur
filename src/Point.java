@@ -44,7 +44,7 @@ public class Point {
 		this.ordonnee = ordonnee;
 	}
 	
-	public double distance(Point a, Point b){
+	public static double distance(Point a, Point b){
 		double xa= a.getAbscisse();
 		double xb=b.getAbscisse();
 		double ya=a.getOrdonnee();

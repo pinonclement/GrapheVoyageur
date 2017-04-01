@@ -26,8 +26,11 @@ public class TSP {
 	}
 
 	public void longueur (){
-		for(int i=0; i<listpoints.size(); i++){
-			
+		double distance=0;
+		for(int i=0; i<listpoints.size()-1; i++){
+			distance+=Point.distance(listpoints.get(i),listpoints.get(i+1));		
 		}
+		distance+=Point.distance(listpoints.get(listpoints.size()-1),listpoints.get(1));
+		System.out.println("Distance du circuit : " + distance);
 	}
 }
