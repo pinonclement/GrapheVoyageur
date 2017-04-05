@@ -7,8 +7,9 @@ public class main {
 		tsp.ajoutPoints(4);
 		tsp.circuit();
 		System.out.println("++");
-		tsp.longueur();
-		tsp.glouton();
+		//tsp.longueur();
+		//tsp.glouton();
+		tsp.mst();
 	}
 
 }

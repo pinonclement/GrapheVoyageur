@@ -66,8 +66,37 @@ public class TSP {
 		System.out.println("size"+tempo.size());
 		System.out.println("total" + total);
 		for (Point p: tempo) {
-		    System.out.println(p.getAbscisse());
+			System.out.print(
+					"[" + p.getAbscisse() + "," + p.getOrdonnee() + "]" + "  -  ");
 		}
+		
 	}
 
+		public void mst(){
+			Object test[]= new Object [2];
+			Object tableauEntier[][] = new Object[listpoints.size()][3];
+			int circuit[][][] = new int[listpoints.size()][][];
+			for(int i=0;i<listpoints.size()-1;i++){
+					tableauEntier[i][0]=listpoints.get(i);
+					tableauEntier[i][1]=listpoints.get(i+1);
+					tableauEntier[i][2]=Point.distance(listpoints.get(i), listpoints.get(i+1));
+				}
+			
+			
+			tableauEntier[tableauEntier.length-1][0]=listpoints.get(listpoints.size() - 1);
+			tableauEntier[tableauEntier.length-1][1]=listpoints.get(0);
+			tableauEntier[tableauEntier.length-1][2]=Point.distance(listpoints.get(listpoints.size() - 1), listpoints.get(0));
+			for(int i=0;i<tableauEntier.length;i++){
+				for (int j=0;j<2;j++){
+					Point p = (Point) tableauEntier[i][j];
+					System.out.print(p.getAbscisse() + "  " );
+				}
+				for (int j=2;j<3;j++){
+					System.out.print(tableauEntier[i][j] + "");
+				}
+					System.out.println();
+				}
+		}
+		
 }
+
