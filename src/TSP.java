@@ -110,16 +110,17 @@ public class TSP {
 	public void heuristique(){
 		ArrayList<Point> tempo =listpoints;
 		int j=0;
-		while(j!=tempo.size()){
-		for (int i=0; i<tempo.size()-2;i++){
-			double gain = voisinage(tempo.get(i),tempo.get(i+1),tempo.get(i+1),tempo.get(i+2));
-			if (gain>0){
-				Collections.swap(tempo, i+1, i+2);	
-				j=0;
+		while(j<tempo.size()){
+			System.out.println(j);
+			System.out.println(tempo.size());
+			for (int i=0; i<tempo.size()-2;i++){
+				double gain = voisinage(tempo.get(i),tempo.get(i+1),tempo.get(i+1),tempo.get(i+2));
+				if (gain>0){
+					Collections.swap(tempo, i+1, i+2);	
+					j=0;
+				}
+				else j+=1;
 			}
-			else 
-				j+=1;
-		}
 		}
 	}
 }
