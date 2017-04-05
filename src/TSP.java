@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class TSP {
 
@@ -19,6 +20,9 @@ public class TSP {
 		}
 	}
 
+	public void circuitrandom(){
+		Collections.shuffle(listpoints);
+	}
 	public void circuit() {
 		for (int i = 0; i < listpoints.size(); i++) {
 			System.out.print(
@@ -56,7 +60,7 @@ public class TSP {
 					listpoints.remove(listpoints.get(i));
 					break;
 				}
-				
+
 			}
 			tempo.add(listpoints.get(0));
 			listpoints.remove(listpoints.get(0));
@@ -69,34 +73,53 @@ public class TSP {
 			System.out.print(
 					"[" + p.getAbscisse() + "," + p.getOrdonnee() + "]" + "  -  ");
 		}
-		
+
 	}
 
-		public void mst(){
-			Object test[]= new Object [2];
-			Object tableauEntier[][] = new Object[listpoints.size()][3];
-			int circuit[][][] = new int[listpoints.size()][][];
-			for(int i=0;i<listpoints.size()-1;i++){
-					tableauEntier[i][0]=listpoints.get(i);
-					tableauEntier[i][1]=listpoints.get(i+1);
-					tableauEntier[i][2]=Point.distance(listpoints.get(i), listpoints.get(i+1));
-				}
-			
-			
-			tableauEntier[tableauEntier.length-1][0]=listpoints.get(listpoints.size() - 1);
-			tableauEntier[tableauEntier.length-1][1]=listpoints.get(0);
-			tableauEntier[tableauEntier.length-1][2]=Point.distance(listpoints.get(listpoints.size() - 1), listpoints.get(0));
-			for(int i=0;i<tableauEntier.length;i++){
-				for (int j=0;j<2;j++){
-					Point p = (Point) tableauEntier[i][j];
-					System.out.print(p.getAbscisse() + "  " );
-				}
-				for (int j=2;j<3;j++){
-					System.out.print(tableauEntier[i][j] + "");
-				}
-					System.out.println();
-				}
+	public void mst(){
+		Object test[]= new Object [2];
+		Object tableauEntier[][] = new Object[listpoints.size()][3];
+		int circuit[][][] = new int[listpoints.size()][][];
+		for(int i=0;i<listpoints.size()-1;i++){
+			tableauEntier[i][0]=listpoints.get(i);
+			tableauEntier[i][1]=listpoints.get(i+1);
+			tableauEntier[i][2]=Point.distance(listpoints.get(i), listpoints.get(i+1));
 		}
-		
+
+
+		tableauEntier[tableauEntier.length-1][0]=listpoints.get(listpoints.size() - 1);
+		tableauEntier[tableauEntier.length-1][1]=listpoints.get(0);
+		tableauEntier[tableauEntier.length-1][2]=Point.distance(listpoints.get(listpoints.size() - 1), listpoints.get(0));
+		for(int i=0;i<tableauEntier.length;i++){
+			for (int j=0;j<2;j++){
+				Point p = (Point) tableauEntier[i][j];
+				System.out.print(p.getAbscisse() + "  " );
+			}
+			for (int j=2;j<3;j++){
+				System.out.print(tableauEntier[i][j] + "");
+			}
+			System.out.println();
+		}
+	}
+
+	public double voisinage(Point a, Point b, Point c, Point d){
+		return Point.distance(a, b)+Point.distance(c,d)-Point.distance(a, c)-Point.distance(d, b);
+	}
+	
+	
+	public void heuristique(){
+		ArrayList<Point> tempo = new ArrayList<Point>() ;
+		tempo.add(listpoints.get(0));
+		for (int i=0; i<listpoints.size();i++){
+			double gain = voisinage(listpoints.get(i),listpoints.get(i+1),listpoints.get(i+1),listpoints.get(i+2));
+			if (gain>0){
+				tempo.add(listpoints.get(i+2));				
+			}
+			else tempo.add(listpoints.get(i+1));
+			
+		}
+	}
 }
+
+
 
