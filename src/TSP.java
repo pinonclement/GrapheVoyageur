@@ -110,19 +110,30 @@ public class TSP {
 	public void heuristique(){
 		ArrayList<Point> tempo =listpoints;
 		int j=0;
+				int compteur =0;
+		int fact = factorial(listpoints.size());
 		while(j<tempo.size()){
 			System.out.println(j);
 			System.out.println(tempo.size());
+			if(compteur==fact)
+				break;
 			for (int i=0; i<tempo.size()-2;i++){
 				double gain = voisinage(tempo.get(i),tempo.get(i+1),tempo.get(i+1),tempo.get(i+2));
 				if (gain>0){
 					Collections.swap(tempo, i+1, i+2);	
 					j=0;
+					compteur++;
 				}
 				else j+=1;
+				compteur++;
 			}
 		}
 	}
+		public static int factorial(int f) {
+
+	    return ((f == 0) ? 1 : f * factorial(f - 1)); 
+
+	}  
 }
 
 
