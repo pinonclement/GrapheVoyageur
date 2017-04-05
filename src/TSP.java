@@ -105,21 +105,20 @@ public class TSP {
 	public double voisinage(Point a, Point b, Point c, Point d){
 		return Point.distance(a, b)+Point.distance(c,d)-Point.distance(a, c)-Point.distance(d, b);
 	}
-	
-	
+
+
 	public void heuristique(){
-		ArrayList<Point> tempo = new ArrayList<Point>() ;
-		tempo.add(listpoints.get(0));
-		for (int i=0; i<listpoints.size();i++){
-			double gain = voisinage(listpoints.get(i),listpoints.get(i+1),listpoints.get(i+1),listpoints.get(i+2));
+		ArrayList<Point> tempo =listpoints;
+		for (int i=0; i<tempo.size();i++){
+			double gain = voisinage(tempo.get(i),tempo.get(i+1),tempo.get(i+1),tempo.get(i+2));
 			if (gain>0){
-				tempo.add(listpoints.get(i+2));				
+				Collections.swap(tempo, 2, 3);		
 			}
-			else tempo.add(listpoints.get(i+1));
-			
 		}
 	}
 }
+
+
 
 
 
