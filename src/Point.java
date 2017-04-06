@@ -2,10 +2,6 @@
 
 public class Point {
 	
-	 /*Commencez par développer une classe « Point ». Une telle classe devra notamment
-	permettre de créer un point dans le plan (défini par ses ordonnées et abscisses), d’obtenir
-	ses principales caractéristiques et de calculer la distance euclidienne entre deux points.
-	*/
 	public String nom;
 	public double abscisse;
 	public double ordonnee;
