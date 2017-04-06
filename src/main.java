@@ -5,12 +5,12 @@ public class main {
 		// TODO Auto-generated method stub
 		TSP tsp = new TSP();
 		tsp.ajoutPoints(10);
+		tsp.circuitrandom();
 		tsp.circuit();
-		System.out.println("++");
-		//tsp.longueur();
-		//tsp.glouton();
-		//tsp.mst();
+		tsp.longueur();
+		tsp.glouton();
 		tsp.heuristique();
+	
+		  }
 	}
 
-}

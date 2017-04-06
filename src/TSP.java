@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 public class TSP {
@@ -28,6 +29,7 @@ public class TSP {
 			System.out.print(
 					"[" + listpoints.get(i).getAbscisse() + "," + listpoints.get(i).getOrdonnee() + "]" + "  -  ");
 		}
+		System.out.println();
 	}
 
 	public void longueur() {
@@ -36,50 +38,64 @@ public class TSP {
 			distance += Point.distance(listpoints.get(i), listpoints.get(i + 1));
 		}
 		distance += Point.distance(listpoints.get(listpoints.size() - 1), listpoints.get(1));
+
 		System.out.println("Distance du circuit : " + distance);
 	}
 
+	public static double longueur(ArrayList<Point> p) {
+		double distance = 0;
+		for (int i = 0; i < p.size() - 1; i++) {
+			distance += Point.distance(p.get(i), p.get(i + 1));
+		}
+		distance += Point.distance(p.get(p.size() - 1), p.get(1));
+		System.out.println("Distance du circuit : " );
+		return distance;
+	}
+
 	public void glouton() {
-		int size = listpoints.size();
+		double tempsDebut = System.nanoTime();
+		ArrayList<Point> copy = new ArrayList<>(listpoints);
+		int size = copy.size();
 		double total=0;
-		int alea = (int) (Math.random() * (listpoints.size() - 1 - 0 + 1)) + 0;
+		int alea = (int) (Math.random() * (copy.size() - 1 - 0 + 1)) + 0;
 		ArrayList<Point> tempo = new ArrayList<Point>();
-		System.out.println(alea);
-		double a = listpoints.get(alea).getAbscisse();
-		double b = listpoints.get(alea).getOrdonnee();
-		System.out.println(a + "   " + b);
-		tempo.add(listpoints.get(alea));
-		listpoints.remove(alea);
+		double a = copy.get(alea).getAbscisse();
+		double b = copy.get(alea).getOrdonnee();
+		tempo.add(copy.get(alea));
+		copy.remove(alea);
 		while (tempo.size() != size) {
-			double min = Point.distance(tempo.get(tempo.size() - 1), listpoints.get(0));
-			for (int i = 1; i < listpoints.size(); i++) {
-				double d = Point.distance(tempo.get(tempo.size() - 1), listpoints.get(i));
+			double min = Point.distance(tempo.get(tempo.size() - 1), copy.get(0));
+			for (int i = 1; i < copy.size(); i++) {
+				double d = Point.distance(tempo.get(tempo.size() - 1), copy.get(i));
 				if (d < min) {
 					min = d;
-					tempo.add(listpoints.get(i));
-					listpoints.remove(listpoints.get(i));
+					tempo.add(copy.get(i));
+					copy.remove(copy.get(i));
 					break;
 				}
 
 			}
-			tempo.add(listpoints.get(0));
-			listpoints.remove(listpoints.get(0));
+			tempo.add(copy.get(0));
+			copy.remove(copy.get(0));
 			total+=min;
 
 		}
-		System.out.println("size"+tempo.size());
-		System.out.println("total" + total);
+		//System.out.println("size"+tempo.size());
+		System.out.println("distance glouton : " + total);
 		for (Point p: tempo) {
 			System.out.print(
 					"[" + p.getAbscisse() + "," + p.getOrdonnee() + "]" + "  -  ");
 		}
-
+		double  tempsFin = System.nanoTime();
+		double seconds = (tempsFin - tempsDebut) / 1000000F;
+		System.out.println();
+		System.out.println("Opération GLOUTON effectuée en: "+ Double.toString(seconds) + " secondes.");
 	}
 
 	public void mst(){
-		Object test[]= new Object [2];
+		ArrayList<Integer> integer = new ArrayList<Integer>();
 		Object tableauEntier[][] = new Object[listpoints.size()][3];
-		int circuit[][][] = new int[listpoints.size()][][];
+		Object circuit[][] = new Object[listpoints.size()][3];
 		for(int i=0;i<listpoints.size()-1;i++){
 			tableauEntier[i][0]=listpoints.get(i);
 			tableauEntier[i][1]=listpoints.get(i+1);
@@ -93,43 +109,72 @@ public class TSP {
 		for(int i=0;i<tableauEntier.length;i++){
 			for (int j=0;j<2;j++){
 				Point p = (Point) tableauEntier[i][j];
-				System.out.print(p.getAbscisse() + "  " );
+				//System.out.print(p.getAbscisse() + "  " );
 			}
 			for (int j=2;j<3;j++){
-				System.out.print(tableauEntier[i][j] + "");
+				//	System.out.print(tableauEntier[i][j] + "");
 			}
-			System.out.println();
+			//System.out.println();
 		}
-	}
+		int k=0;
+		int tempo=0;
+		while(integer.size()!=tableauEntier.length){
+			for(int i=0; i<tableauEntier.length;i++){
+				double min=2;
+				if((double)tableauEntier[i][2]<min && !integer.contains(i)){
+					min=(double)tableauEntier[i][2];
+					tempo=i;				
+				}	
+			}
+			circuit[k][0]=tableauEntier[tempo][0];
+			circuit[k][1]=tableauEntier[tempo][1];
+			circuit[k][2]=tableauEntier[tempo][2];
+			k+=1;
+			integer.add(tempo);
+			tempo=0;
 
+		}
+		double distance=0;
+		for(int i=0; i<circuit.length;i++){
+			distance+=(double)circuit[i][2];
+		}
+		System.out.println("distance mst " + distance);
+
+	}
 	public double voisinage(Point a, Point b, Point c, Point d){
 		return Point.distance(a, b)+Point.distance(c,d)-Point.distance(a, c)-Point.distance(d, b);
 	}
 
 
+
 	public void heuristique(){
+		double tempsDebut = System.nanoTime();
 		ArrayList<Point> tempo =listpoints;
 		int j=0;
 		int compteur =0;
-		while(j<tempo.size()){
-			System.out.println(j);
-			System.out.println(tempo.size());
-			if(compteur>Math.pow(tempo.size(),2))
-				break;
-			for (int i=0; i<tempo.size()-2;i++){
-				double gain = voisinage(tempo.get(i),tempo.get(i+1),tempo.get(i+1),tempo.get(i+2));
+		for (int i=0; i<tempo.size()-2;i++){
+			for (int k=0; k<tempo.size()-1;k++){
+				double gain = voisinage(tempo.get(i),tempo.get(i+1),tempo.get(k),tempo.get(k+1));
 				if (gain>0){
-					Collections.swap(tempo, i+1, i+2);	
-					j=0;
-					compteur++;
+					Collections.swap(tempo,i+1 ,k);					
 				}
-				else j+=1;
-				compteur++;
 			}
+
 		}
+		System.out.println("methode heuristique:");
+		for (int i = 0; i < tempo.size(); i++) {
+			System.out.print(
+					"[" + tempo.get(i).getAbscisse() + "," + tempo.get(i).getOrdonnee() + "]" + "  -  ");
+		}
+
+		System.out.println("Longueur totale methode heuristique :" + (double)longueur(tempo));
+		double  tempsFin = System.nanoTime();
+		double seconds = (tempsFin - tempsDebut) / 1000000F;
+		System.out.println();
+		System.out.println("Opération HEURISTIQUE effectuée en: "+ Double.toString(seconds) + " secondes.");
 	}
-		
 }
+
 
 
 
